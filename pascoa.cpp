@@ -9,9 +9,10 @@
 
 void display(void);
 void tela(GLsizei w, GLsizei h);
+void desenha_circulo(int pos_x, int pos_y, int tam_x, int tam_y, int  circ_pnt);
+void detalhes_patas(int pos_x, int pos_y, int tam_x, int tam_y, int  circ_pnt);
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv){
 	glutInit(&argc, argv);  // controla se o sistema operacional tem suporte a janelas.
 
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);  // quantidade de buffer de cores e que o padrao de cores é RGB ou RGBA
@@ -29,87 +30,69 @@ int main(int argc, char** argv)
 }
 
 void desenhar() {
-	GLfloat circ_pnt = 400;
+	GLfloat circ_pnt = 800;
 	GLfloat ang, raioX = 30.0f, raioY = 60.0f;
 	int posX, posY;
 	// ========================
 	// Ovo 1
 	// ========================
-	posX = -200;
-	posY = -100;
 	glColor3f(1.0, 0.0, 0.0);
-	glBegin(GL_POLYGON);
-	for (int i = 0; i < circ_pnt; i++) {
-		ang = (2 * PI * i) / circ_pnt;
-		glVertex2d((cos(ang) * raioX) + posX, (sin(ang) * raioY) + posY);
-	}
-	glEnd();
-	// ========================
-	// Ovo 2
-	// ========================
-	glColor3f(0.0, 0.0, 1.0);
-	posX = +200;
-	posY = -100;
-	glBegin(GL_POLYGON);
-	for (int i = 0; i < circ_pnt; i++) {
-		ang = (2 * PI * i) / circ_pnt;
-		glVertex2d((cos(ang) * raioX) + posX, (sin(ang) * raioY) + posY);
-	}
-	glEnd();
-	// ========================
-	// Coelho
-	// ========================
-	// Cabeça
-	// ========================
-	raioX = 65.0f;
-	raioY = 135.0f;
-	circ_pnt = 400;
-	glLineWidth(2);
-	glColor3f(1.0, 1.0, 1.0);
-	posX = 0;
-	posY = -175;
-	glBegin(GL_POLYGON);
-	for (int i = 0; i < circ_pnt; i++) {
-		ang = (2 * PI * i) / circ_pnt;
-		glVertex2d((cos(ang) * raioX) + posX, (sin(ang) * raioY) + posY);
-	}
-	glEnd();
-	// ========================
-	// Bochecha left
-	// ========================
-	raioX = 50.0f;
-	raioY = 50.0f;
-	circ_pnt = 400;
-	glColor3f(1.0, 1.0, 1.0);
-	posX = -60;
-	posY = -182;
-	glBegin(GL_POLYGON);
-	for (int i = 0; i < circ_pnt; i++) {
-		ang = (2 * PI * i) / circ_pnt;
-		glVertex2d((cos(ang) * raioX) + posX, (sin(ang) * raioY) + posY);
-	}
-	glEnd();
-	// ========================
-	// Bochecha right
-	// ========================
-	raioX = 50.0f;
-	raioY = 50.0f;
-	circ_pnt = 400;
-	glColor3f(1.0, 1.0, 1.0);
-	posX = 60;
-	posY = -182;
-	glBegin(GL_POLYGON);
-	for (int i = 0; i < circ_pnt; i++) {
+	desenha_circulo(-200, -90, 40, 70, circ_pnt);
+	/*
+	raioX = 34.0f;
+	raioY = 10.0f;
+	glColor3f(0, 0, 0);
+	posX = -200;
+	posY = -70;
+	glLineWidth(10);
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i < (circ_pnt / 2) + 1; i++) {
 		ang = (2 * PI * i) / circ_pnt;
 		glVertex2d((cos(ang) * raioX) + posX, (sin(ang) * raioY) + posY);
 	}
 	glEnd();
 
+	raioX = 34.0f;
+	raioY = 10.0f;
+	glColor3f(0, 0, 0);
+	posX = -200;
+	posY = -110;
+	glLineWidth(10);
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i < (circ_pnt / 2) + 1; i++) {
+		ang = (2 * PI * i) / circ_pnt;
+		glVertex2d((cos(ang) * raioX) + posX, (sin(ang) * raioY) + posY);
+	}
+	glEnd();
+
+	glLineWidth(1);
+	*/
+	// ========================
+	// Ovo 2
+	// ========================
+	glColor3f(0.0, 0.0, 1.0);
+	desenha_circulo(200, -100, 30, 60, circ_pnt);
+	// ========================
+	// Coelho
+	// ========================
+	glColor3f(1.0, 1.0, 1.0); // Setar cor branca
+	// ========================
+	// Cabeça
+	// ========================
+	//glLineWidth(2);
+	desenha_circulo(0, -170, 65, 135, circ_pnt);
+	// ========================
+	// Bochecha left
+	// ========================
+	desenha_circulo(-60, -182, 50, 50, circ_pnt);
+	// ========================
+	// Bochecha right
+	// ========================
+	desenha_circulo(60, -182, 50, 50, circ_pnt);
+	/*
 	raioX = 35.0f;
 	raioY = 35.0f;
-	circ_pnt = 400;
 	glColor3ub(112, 111, 111);
-	//glRotated(180,0,0,0);
 	posX = 65;
 	posY = -180;
 	glBegin(GL_LINE_STRIP);
@@ -118,132 +101,72 @@ void desenhar() {
 		glVertex2d((cos(ang) * raioX) + posX, (sin(ang) * raioY) + posY);
 	}
 	glEnd();
-	//glRotated(-180, 0, 0, 0);
+	*/
 	// ========================
-	// Orelha left
+	// Orelhas
 	// ========================
-	raioX = 30.0f;
-	raioY = 90.0f;
-	circ_pnt = 400;
-	glColor3f(1.0, 1.0, 1.0);
+	glColor3f(1.0, 1.0, 1.0); // Cor branca
+	// Orelha esquerda
 	glRotated(20, 0, 0, 1);
-	posX = -60;
-	posY = 30;
-	glBegin(GL_POLYGON);
-	for (int i = 0; i < circ_pnt; i++) {
-		ang = (2 * PI * i) / circ_pnt;
-		glVertex2d((cos(ang) * raioX) + posX, (sin(ang) * raioY) + posY);
-	}
-	glEnd();
-	glColor3ub(249, 189, 242);
+	desenha_circulo(-60, 30, 30, 90, circ_pnt);
 	glRotated(-20, 0, 0, 1); // Arrumar rotacao
-
-	raioX = 17.0f;
-	raioY = 77.0f;
-	circ_pnt = 400;
-	glColor3ub(249, 189, 242);
+	// Orelha Direita
+	glRotated(-20, 0, 0, 1);
+	desenha_circulo(60, 30, 30, 90, circ_pnt);
+	glRotated(20, 0, 0, 1); // Arrumar rotacao
+	// Dentro da orelha
+	glColor3ub(249, 189, 242); // Cor rosa
 	glRotated(20, 0, 0, 1);
-	posX = -60;
-	posY = 30;
-	glBegin(GL_POLYGON);
-	for (int i = 0; i < circ_pnt; i++) {
-		ang = (2 * PI * i) / circ_pnt;
-		glVertex2d((cos(ang) * raioX) + posX, (sin(ang) * raioY) + posY);
-	}
-	glEnd();
-	glRotated(-20, 0, 0, 1); // Arrumar rotacao
-
-	raioX = 25.0f;
-	raioY = 60.0f;
-	circ_pnt = 400;
+	desenha_circulo(-60, 30, 17, 77, circ_pnt);// Esquerda
+	glRotated(-40, 0, 0, 1); // Arrumar rotacao
+	desenha_circulo(60, 30, 17, 77, circ_pnt); // Direita
+	glRotated(20, 0, 0, 1);  // Arrumar rotacao
+	// Dobra da orelha
 	glColor3f(1.0, 1.0, 1.0);
-	posX = -93;
-	posY = 33;
-	glBegin(GL_POLYGON);
-	for (int i = 0; i < circ_pnt; i++) {
-		ang = (2 * PI * i) / circ_pnt;
-		glVertex2d((cos(ang) * raioX) + posX, (sin(ang) * raioY) + posY);
-	}
-	glEnd();
+	desenha_circulo(-93, 33, 25, 60, circ_pnt); // Esquerda
+	desenha_circulo(93, 33, 25, 60, circ_pnt);	// Direita
 	// ========================
-	// Orelha right
+	// Pata right
 	// ========================
-	raioX = 30.0f;
-	raioY = 90.0f;
-	circ_pnt = 400;
-	glColor3f(1.0, 1.0, 1.0);
-	glRotated(-20, 0, 0, 1);
-	posX = 60;
-	posY = 30;
-	glBegin(GL_POLYGON);
-	for (int i = 0; i < circ_pnt; i++) {
-		ang = (2 * PI * i) / circ_pnt;
-		glVertex2d((cos(ang) * raioX) + posX, (sin(ang) * raioY) + posY);
-	}
-	glEnd();
-	glRotated(20, 0, 0, 1); // Arrumar rotacao
-
-	raioX = 17.0f;
-	raioY = 77.0f;
-	circ_pnt = 400;
-	glColor3ub(249, 189, 242);
-	glRotated(-20, 0, 0, 1);
-	posX = 60;
-	posY = 30;
-	glBegin(GL_POLYGON);
-	for (int i = 0; i < circ_pnt; i++) {
-		ang = (2 * PI * i) / circ_pnt;
-		glVertex2d((cos(ang) * raioX) + posX, (sin(ang) * raioY) + posY);
-	}
-	glEnd();
-	glRotated(20, 0, 0, 1); // Arrumar rotacao
-
-	raioX = 25.0f;
-	raioY = 60.0f;
-	circ_pnt = 400;
-	glColor3f(1.0, 1.0, 1.0);
-	posX = 93;
-	posY = 33;
-	glBegin(GL_POLYGON);
-	for (int i = 0; i < circ_pnt; i++) {
-		ang = (2 * PI * i) / circ_pnt;
-		glVertex2d((cos(ang) * raioX) + posX, (sin(ang) * raioY) + posY);
-	}
-	glEnd();
-	// ========================
-	// Pata left
-	// ========================
-	raioX = 50.0f;
-	raioY = 30.0f;
-	circ_pnt = 400;
-	glColor3f(1.0, 1.0, 1.0);
+	raioX = 40.0f;
+	raioY = 35.0f;
 	glRotated(180, 0, 0, 0);
 	posX = -200;
-	posY = 168;
+	posY = 165;
 	glBegin(GL_POLYGON);
-	for (int i = 0; i < (circ_pnt/2) + 1; i++) {
+	for (int i = 0; i < (circ_pnt / 2) + 1; i++) {
 		ang = (2 * PI * i) / circ_pnt;
 		glVertex2d((cos(ang) * raioX) + posX, (sin(ang) * raioY) + posY);
 	}
 	glEnd();
 	glRotated(-180, 0, 0, 1);
+
+	glColor3f(0, 0, 0);
+	detalhes_patas(210, -156, 20, 30, circ_pnt);
+	detalhes_patas(190, -156, 20, 30, circ_pnt);
+	detalhes_patas(170, -156, 20, 30, circ_pnt);
 	// ========================
-	// Pata right
+	// Pata left
 	// ========================
-	raioX = 50.0f;
-	raioY = 30.0f;
-	circ_pnt = 400;
+	raioX = 40.0f;
+	raioY = 35.0f;
 	glColor3f(1.0, 1.0, 1.0);
 	glRotated(180, 0, 0, 0);
 	posX = 200;
-	posY = 168;
+	posY = 165;
 	glBegin(GL_POLYGON);
-	for (int i = 0; i < (circ_pnt/2) + 1; i++) {
+	for (int i = 0; i < (circ_pnt / 2) + 1; i++) {
 		ang = (2 * PI * i) / circ_pnt;
 		glVertex2d((cos(ang) * raioX) + posX, (sin(ang) * raioY) + posY);
 	}
 	glEnd();
-	glRotated(-180, 0, 0, 0);
+
+	glRotated(-180, 0, 0, 1);
+
+	glColor3f(0, 0, 0);
+	detalhes_patas(-230, -156, 20, 30, circ_pnt);
+	detalhes_patas(-210, -156, 20, 30, circ_pnt);
+	detalhes_patas(-190, -156, 20, 30, circ_pnt);
 	// ========================
 	// Olho Left
 	// ========================
@@ -260,7 +183,6 @@ void desenhar() {
 	*/
 	raioX = 15.0f;
 	raioY = 10.0f;
-	circ_pnt = 400;
 	glColor3f(0, 0, 0);
 	posX = -25;
 	posY = -105;
@@ -286,7 +208,6 @@ void desenhar() {
 	*/
 	raioX = 15.0f;
 	raioY = 10.0f;
-	circ_pnt = 400;
 	glColor3f(0, 0, 0);
 	posX = 25;
 	posY = -105;
@@ -306,32 +227,6 @@ void desenhar() {
 	glVertex2f(25, -140);
 	// OBS: a ordem dos pontos importa
 	glEnd();
-	// ========================
-	//	Bigodes
-	// ========================
-	/*
-	glBegin(GL_LINES);
-	glColor3f(0.0f, 0.0f, 0.0f);
-	// Fio 1
-	glVertex2f( 22, -152);
-	glVertex2f( 70, -147);
-	// Fio 2
-	glVertex2f( 12, -162);
-	glVertex2f( 60, -157);
-	// Fio 3
-	glVertex2f(  2, -172);
-	glVertex2f( 50, -167);
-	// Fio 4
-	glVertex2f( -22, -152);
-	glVertex2f( -70, -147);
-	// Fio 5
-	glVertex2f( -12, -162);
-	glVertex2f( -60, -157);
-	// Fio 6
-	glVertex2f( -2, -172);
-	glVertex2f( -50, -167);
-	glEnd();
-	*/
 	// ========================
 	// Boca
 	// ========================
@@ -364,25 +259,7 @@ void desenhar() {
 	}
 	glEnd();
 	glRotated(-180, 0, 0, 0);
-	// ========================
-	// Detalhes
-	// ========================
-	/*
-	raioX = 30.0f;
-	raioY = 30.0f;
-	circ_pnt = 400;
-	glColor3ub(142, 142, 142);
-	glRotated(0, 0, 0, 0);
-	posX = -95;
-	posY = -185;
-	glBegin(GL_LINE_STRIP);
-	for (int i = 0; i < (circ_pnt / 4) + 1; i++) {
-		ang = (2 * PI * i) / circ_pnt;
-		glVertex2d((cos(ang) * raioX) + posX, (sin(ang) * raioY) + posY);
-	}
-	glEnd();
-	glRotated(0, 0, 0, 0);
-	*/
+
 	/*
 	Imagem como base
 	https://www.google.com/search?biw=2560&bih=937&tbm=isch&sa=1&ei=5QGlXK6gGe6w5OUPr5q-qAk&q=coelho+da+pascoa&oq=coelho+da+pascoa&gs_l=img.3..0l10.706.2172..2312...0.0..0.152.1644.0j12......0....1..gws-wiz-img.......0i10j0i10i24j0i67.mS-aT3cwtEo#imgrc=C_u4Rb7zQbpN9M:
@@ -414,4 +291,26 @@ void tela(GLsizei w, GLsizei h) {
 	gluOrtho2D(0, janela_largura, 0, janela_altura);
 
 	glMatrixMode(GL_MODELVIEW);
+}
+
+void desenha_circulo(int pos_x, int pos_y, int tam_x, int tam_y, int  circ_pnt) {
+	GLfloat ang;
+
+	glBegin(GL_POLYGON);
+	for (int i = 0; i < circ_pnt; i++) {
+		ang = (2 * PI * i) / circ_pnt;
+		glVertex2d((cos(ang) * tam_x) + pos_x, (sin(ang) * tam_y) + pos_y);
+	}
+	glEnd();
+}
+
+void detalhes_patas(int pos_x, int pos_y, int tam_x, int tam_y, int  circ_pnt) {
+	GLfloat ang;
+
+	glBegin(GL_LINE_STRIP);
+	for (int i = -150; i < (circ_pnt / 4) - 240; i++) {
+		ang = (2 * PI * i) / circ_pnt;
+		glVertex2d((cos(ang) * tam_x) + pos_x, (sin(ang) * tam_y) + pos_y);
+	}
+	glEnd();
 }
