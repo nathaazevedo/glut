@@ -9,10 +9,10 @@
 
 void display(void);
 void tela(GLsizei w, GLsizei h);
-void desenha_circulo(int pos_x, int pos_y, int tam_x, int tam_y, int  circ_pnt);
-void detalhes_patas(int pos_x, int pos_y, int tam_x, int tam_y, int  circ_pnt);
+void desenha_circulo(GLfloat pos_x, GLfloat pos_y, GLfloat tam_x, GLfloat tam_y, GLfloat  circ_pnt);
+void detalhes_patas(GLfloat pos_x, GLfloat pos_y, GLfloat tam_x, GLfloat tam_y, GLfloat  circ_pnt);
 
-int main(int argc, char** argv){
+int main(int argc, char** argv) {
 	glutInit(&argc, argv);  // controla se o sistema operacional tem suporte a janelas.
 
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);  // quantidade de buffer de cores e que o padrao de cores é RGB ou RGBA
@@ -37,41 +37,86 @@ void desenhar() {
 	// Ovo 1
 	// ========================
 	glColor3f(1.0, 0.0, 0.0);
-	desenha_circulo(-200, -90, 40, 70, circ_pnt);
-	/*
-	raioX = 34.0f;
-	raioY = 10.0f;
-	glColor3f(0, 0, 0);
-	posX = -200;
-	posY = -70;
-	glLineWidth(10);
-	glBegin(GL_LINE_STRIP);
-	for (int i = 0; i < (circ_pnt / 2) + 1; i++) {
+	desenha_circulo(-200, -95, 40, 70, circ_pnt);
+
+	glRotated(-30,0,0,1);
+	desenha_circulo(-170, -70, 15, 50, circ_pnt);
+	glRotated(30, 0, 0, 1);
+	desenha_circulo(-200, 30, 15, 50, circ_pnt);
+	glRotated(30, 0, 0, 1);
+	desenha_circulo(-180, 130, 15, 50, circ_pnt);
+	glRotated(-30, 0, 0, 1);
+	glColor3f(0.0, 0.0, 1.0);
+	// ========================
+	// LAÇO
+	// ========================
+	glBegin(GL_TRIANGLES);
+	glVertex2d(-250, 5);
+	glVertex2d(-250, -45);
+	glVertex2d(-200, -20);
+	glEnd();
+	glBegin(GL_TRIANGLES);
+	glVertex2d(-150, 5);
+	glVertex2d(-150, -45);
+	glVertex2d(-200, -20);
+	glEnd();
+	desenha_circulo(-200, -20, 15, 15,circ_pnt);
+	// Ladinhos
+	glBegin(GL_POLYGON);
+	for (int i = 200; i < (circ_pnt / 2) + 200; i++) {
 		ang = (2 * PI * i) / circ_pnt;
-		glVertex2d((cos(ang) * raioX) + posX, (sin(ang) * raioY) + posY);
+		glVertex2d((cos(ang) * 20) -250, (sin(ang) * 25) -20);
 	}
 	glEnd();
-
-	raioX = 34.0f;
-	raioY = 10.0f;
-	glColor3f(0, 0, 0);
-	posX = -200;
-	posY = -110;
-	glLineWidth(10);
-	glBegin(GL_LINE_STRIP);
-	for (int i = 0; i < (circ_pnt / 2) + 1; i++) {
+	glBegin(GL_POLYGON);
+	for (int i = -200; i < (circ_pnt / 2) - 200; i++) {
 		ang = (2 * PI * i) / circ_pnt;
-		glVertex2d((cos(ang) * raioX) + posX, (sin(ang) * raioY) + posY);
+		glVertex2d((cos(ang) * 20) - 150, (sin(ang) * 25) - 20);
 	}
 	glEnd();
-
-	glLineWidth(1);
-	*/
 	// ========================
 	// Ovo 2
 	// ========================
 	glColor3f(0.0, 0.0, 1.0);
-	desenha_circulo(200, -100, 30, 60, circ_pnt);
+	desenha_circulo(200, -95, 40, 70, circ_pnt);
+
+	glRotated(-30, 0, 0, 1);
+	desenha_circulo(180, 130, 15, 50, circ_pnt);
+	glRotated(30, 0, 0, 1);
+	desenha_circulo(200, 30, 15, 50, circ_pnt);
+	glRotated(30, 0, 0, 1);
+	desenha_circulo(165, -70, 15, 50, circ_pnt);
+	glRotated(-30, 0, 0, 1);
+	glColor3f(1.0, 0.0, 0.0);
+	// ========================
+	// LAÇO
+	// ========================
+	glBegin(GL_TRIANGLES);
+	glVertex2d(250, 5);
+	glVertex2d(250, -45);
+	glVertex2d(200, -20);
+	glEnd();
+	glBegin(GL_TRIANGLES);
+	glVertex2d(150, 5);
+	glVertex2d(150, -45);
+	glVertex2d(200, -20);
+	glEnd();
+	desenha_circulo(200, -20, 15, 15, circ_pnt);
+	
+	// Ladinhos
+	glBegin(GL_POLYGON);
+	for (int i = 200; i < (circ_pnt / 2) + 200; i++) {
+		ang = (2 * PI * i) / circ_pnt;
+		glVertex2d((cos(ang) * 20) + 150, (sin(ang) * 25) - 20);
+	}
+	glEnd();
+	glBegin(GL_POLYGON);
+	for (int i = -200; i < (circ_pnt / 2) - 200; i++) {
+		ang = (2 * PI * i) / circ_pnt;
+		glVertex2d((cos(ang) * 20) + 250, (sin(ang) * 25) - 20);
+	}
+	glEnd();
+	
 	// ========================
 	// Coelho
 	// ========================
@@ -293,7 +338,7 @@ void tela(GLsizei w, GLsizei h) {
 	glMatrixMode(GL_MODELVIEW);
 }
 
-void desenha_circulo(int pos_x, int pos_y, int tam_x, int tam_y, int  circ_pnt) {
+void desenha_circulo(GLfloat pos_x, GLfloat pos_y, GLfloat tam_x, GLfloat tam_y, GLfloat circ_pnt) {
 	GLfloat ang;
 
 	glBegin(GL_POLYGON);
@@ -304,7 +349,7 @@ void desenha_circulo(int pos_x, int pos_y, int tam_x, int tam_y, int  circ_pnt) 
 	glEnd();
 }
 
-void detalhes_patas(int pos_x, int pos_y, int tam_x, int tam_y, int  circ_pnt) {
+void detalhes_patas(GLfloat pos_x, GLfloat pos_y, GLfloat tam_x, GLfloat tam_y, GLfloat circ_pnt) {
 	GLfloat ang;
 
 	glBegin(GL_LINE_STRIP);
