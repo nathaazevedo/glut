@@ -6,7 +6,7 @@ Codigos em .cpp dos desenhos desenvolvidos OpenGl com a biblioteca glut no Visua
 -> Ferramentas -> Gerenciador de pacotes nuget -> Console do gerenciador de pacotes
 
 `install-package nupengl.core`
- width="500" height="500
+
 ## Prints
 
 <p align="center">
