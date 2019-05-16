@@ -9,8 +9,13 @@
 
 void display(void);
 void tela(GLsizei w, GLsizei h);
+void desenha_aquario();
 void desenha_circulo(GLfloat pos_x, GLfloat pos_y, GLfloat tam_x, GLfloat tam_y, GLfloat  circ_pnt);
 void desenha_meio_circulo(GLfloat pos_x, GLfloat pos_y, GLfloat tam_x, GLfloat tam_y, GLfloat  circ_pnt);
+
+GLfloat circ_pnt = 800;
+GLfloat ang, raioX = 30.0f, raioY = 60.0f;
+int posX, posY;
 
 int main(int argc, char** argv) {
 	glutInit(&argc, argv);  // controla se o sistema operacional tem suporte a janelas.
@@ -30,15 +35,10 @@ int main(int argc, char** argv) {
 }
 
 void desenhar() {
-	GLfloat circ_pnt = 800;
-	GLfloat ang, raioX = 30.0f, raioY = 60.0f;
-	int posX, posY;
-
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	//Aquario
-	glColor3f(0.9, 0.85, 0.85);
-	desenha_meio_circulo(0, 0, 150, 150, circ_pnt);
+	desenha_aquario();
 }
 
 void display() {
@@ -67,6 +67,12 @@ void tela(GLsizei w, GLsizei h) {
 	glMatrixMode(GL_MODELVIEW);
 }
 
+void desenha_aquario() {
+
+	glColor3f(0.9, 0.85, 0.85);
+	desenha_meio_circulo(0, 0, 150, 150, circ_pnt);
+}
+
 void desenha_circulo(GLfloat pos_x, GLfloat pos_y, GLfloat tam_x, GLfloat tam_y, GLfloat circ_pnt) {
 	GLfloat ang;
 
@@ -83,7 +89,7 @@ void desenha_meio_circulo(GLfloat pos_x, GLfloat pos_y, GLfloat tam_x, GLfloat t
 
 	glBegin(GL_POLYGON);
 	for (int i = 0; i < circ_pnt; i++) {
-		ang = 10-(1.37f * PI * i) / circ_pnt;
+		ang = 10 - (1.37f * PI * i) / circ_pnt;
 		glVertex2d((cos(ang) * -tam_x) + pos_x, (sin(ang) * -tam_y) + pos_y);
 	}
 	glEnd();
