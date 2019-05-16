@@ -84,42 +84,30 @@ void display() {
 
 	glColor3f(0, 1, 0);
 	glVertex3f(3, 1, 1);
-	
+
 	glColor3f(0, 0, 1);
 	glVertex3f(3, -1, 1);
-	
+
 	glColor3f(0, 0, 1);
 	glVertex3f(2, -1, 0);
 
 	//right
-	glColor3f(1, 0, 0);
+//	glColor3f(1, 0, 0);
+	glColor3f(0, 1, 0);
 	glVertex3f(3, 1, 1);
 
-	glColor3f(0, 0, 1);
+//	glColor3f(0, 0, 1);
+	glColor3f(1, 0, 0);
 	glVertex3f(4, 1, -1);
 
-	glColor3f(0, 1, 0);
+//	glColor3f(0, 1, 0);
+	glColor3f(0, 0, 1);
 	glVertex3f(4, -1, -1);
 
+//	glColor3f(0, 0, 1);
 	glColor3f(0, 0, 1);
 	glVertex3f(3, -1, 1);
 
-	/*
-	//back
-	glColor3f(1, 0, 0);
-	glVertex3f(0, 1, 0);
-	glColor3f(0, 1, 0);
-	glVertex3f(1, -1, -1);
-	glColor3f(0, 0, 1);
-	glVertex3f(-1, -1, -1);
-	//left
-	glColor3f(1, 0, 0);
-	glVertex3f(0, 1, 0);
-	glColor3f(0, 0, 1);
-	glVertex3f(-1, -1, -1);
-	glColor3f(0, 1, 0);
-	glVertex3f(-1, -1, 1);
-	*/
 	glEnd();
 
 	glutSwapBuffers();
