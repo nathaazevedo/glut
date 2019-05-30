@@ -12,6 +12,7 @@ void tela(GLsizei w, GLsizei h);
 void desenha_aquario();
 void desenha_circulo(GLfloat pos_x, GLfloat pos_y, GLfloat tam_x, GLfloat tam_y, GLfloat  circ_pnt);
 void desenha_meio_circulo(GLfloat pos_x, GLfloat pos_y, GLfloat tam_x, GLfloat tam_y, GLfloat  circ_pnt);
+void desenha_peixe();
 
 GLfloat circ_pnt = 800;
 GLfloat ang, raioX = 30.0f, raioY = 60.0f;
@@ -38,7 +39,11 @@ void desenhar() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	//Aquario
+//	glColor3ub(255,255,255);
 	desenha_aquario();
+	//Desenha pexe
+	glColor3ub(0, 0, 0);
+	desenha_peixe();
 }
 
 void display() {
@@ -93,4 +98,24 @@ void desenha_meio_circulo(GLfloat pos_x, GLfloat pos_y, GLfloat tam_x, GLfloat t
 		glVertex2d((cos(ang) * -tam_x) + pos_x, (sin(ang) * -tam_y) + pos_y);
 	}
 	glEnd();
+}
+
+void desenha_peixe(){ 
+	// desenhar corpo
+	desenha_circulo(50, 0, 35, 17, circ_pnt);
+	// desenhar olhos
+	glColor3ub(255, 255, 255);
+	desenha_circulo(70, 5, 2, 2, circ_pnt);
+	// desenhar
+	glColor3ub(0, 0, 0);
+
+	glBegin(GL_TRIANGLES);
+
+	glVertex2f(0, 20);
+	glVertex2f(20, 0);
+	glVertex2f(0, -20);
+
+	glEnd();
+
+
 }
