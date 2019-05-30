@@ -75,13 +75,14 @@ void display()
 	glMatrixMode(GL_MODELVIEW); // operando com a camera de modelos
 
 	glLoadIdentity();
-	glTranslatef(-1.5f, 0.0f, -6.0f); // posiciona a piramide
+	glTranslatef(-1.5f, 0.0f, -6.0f); // posiciona a esfera
 	glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambientee);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
 	glMaterialfv(GL_FRONT, GL_SHININESS, alto_brilho);
 	glMaterialfv(GL_FRONT, GL_EMISSION, padrao);
 	glutSolidSphere(1.0, 60, 60);
+
 	glutSwapBuffers(); // trocar a matriz da tela por esta aqui.
 }
 
