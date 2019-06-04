@@ -19,7 +19,7 @@ int main(int argc, char** argv)
 	glutInitWindowSize(janela_largura, janela_altura);  // tamanho da janela
 	glutInitWindowPosition(300, 300); // posicao inicial da janela
 
-	glutCreateWindow("GLUT Melancia ---- exercicio de glut");   /// cria a janela
+	glutCreateWindow("GLUT Melancia do Natao ---- exercicio de glut");   /// cria a janela
 
 	glutReshapeFunc(tela); // configura tela
 	glutDisplayFunc(display);
