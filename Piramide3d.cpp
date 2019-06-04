@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
 	glutInitDisplayMode(GLUT_DOUBLE);
 	glutInitWindowSize(windowW, windowH);
 	glutInitWindowPosition(0, 0);
-	glutCreateWindow("First 3D test");
+	glutCreateWindow("First 3D test - Piramide e Prisma");
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
 	glutMainLoop();
@@ -96,15 +96,15 @@ void display() {
 	glColor3f(0, 1, 0);
 	glVertex3f(3, 1, 1);
 
-//	glColor3f(0, 0, 1);
+	//	glColor3f(0, 0, 1);
 	glColor3f(1, 0, 0);
 	glVertex3f(4, 1, -1);
 
-//	glColor3f(0, 1, 0);
+	//	glColor3f(0, 1, 0);
 	glColor3f(0, 0, 1);
 	glVertex3f(4, -1, -1);
 
-//	glColor3f(0, 0, 1);
+	//	glColor3f(0, 0, 1);
 	glColor3f(0, 0, 1);
 	glVertex3f(3, -1, 1);
 
