@@ -64,7 +64,6 @@ void keyboard(unsigned char tecla, int x, int y) {
 void display() {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	//glClearColor(0.25f, 1.0f, 0.66f, 1.0f);  // cor do fundo
 	glClearColor(0.31f, 0.7f, 1.0f, 0.0f);	// definir cor do fundo
 	glClear(GL_COLOR_BUFFER_BIT);  // limpa a tela com a cor do fundo
 
@@ -92,7 +91,7 @@ void anim(int value) {
 	if ((tx) > (limit) || (tx) < (-limit)) {
 		xStep = -xStep;
 	}
-	if ((ty) > (limit/2) || (ty) < (-limit/2)) {
+	if ((ty) > (limit / 2) || (ty) < (-limit / 2)) {
 		yStep = -yStep;
 	}
 	tx += xStep;
@@ -133,7 +132,7 @@ void desenha_aquario() {
 	glBegin(GL_POLYGON);
 	for (int i = 0; i < circ_pnt; i++) {
 		ang = 3.4f - (1.17f * PI * i) / circ_pnt;
-		glVertex2d((cos(ang) * (-tam_aquario+3)), (sin(ang) * -tam_aquario+3) + 0);
+		glVertex2d((cos(ang) * (-tam_aquario + 3)), (sin(ang) * -tam_aquario + 3) + 0);
 	}
 	glEnd();
 }
@@ -155,7 +154,8 @@ void desenha_peixe() {
 	if (xStep > 0) {
 		//glRotatef(0, 0, 0, 1); // (ang, x, y, z)
 		glScalef(1, 1, 1);
-	} else if (xStep < 0) {
+	}
+	else if (xStep < 0) {
 		//glRotatef(180, 0, 0, 1); // (ang, x, y, z)
 		glScalef(-(1), 1, 1);
 	}
@@ -164,9 +164,9 @@ void desenha_peixe() {
 	desenha_circulo(0, 0, 35, 17, circ_pnt); // desenhar corpo
 	// desenhar cauda
 	glBegin(GL_TRIANGLES);
-		glVertex2f(-50, 20);
-		glVertex2f(-30, 0);
-		glVertex2f(-50, -20);
+	glVertex2f(-50, 20);
+	glVertex2f(-30, 0);
+	glVertex2f(-50, -20);
 	glEnd();
 	// desenhar olhos
 	glColor3ub(255, 255, 255);
