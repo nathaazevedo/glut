@@ -7,11 +7,9 @@
 #define windowH 400
 #define windowW 600
 
-//translation variables
 float tx = 0.0;
 float ty = 0.0;
 
-//variables incrementation
 float xStep = 4;
 float yStep = 4;
 
