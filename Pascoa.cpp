@@ -39,7 +39,7 @@ void desenhar() {
 	glColor3f(1.0, 0.0, 0.0);
 	desenha_circulo(-200, -95, 40, 70, circ_pnt);
 
-	glRotated(-30,0,0,1);
+	glRotated(-30, 0, 0, 1);
 	desenha_circulo(-170, -70, 15, 50, circ_pnt);
 	glRotated(30, 0, 0, 1);
 	desenha_circulo(-200, 30, 15, 50, circ_pnt);
@@ -60,12 +60,12 @@ void desenhar() {
 	glVertex2d(-150, -45);
 	glVertex2d(-200, -20);
 	glEnd();
-	desenha_circulo(-200, -20, 15, 15,circ_pnt);
+	desenha_circulo(-200, -20, 15, 15, circ_pnt);
 	// Ladinhos
 	glBegin(GL_POLYGON);
 	for (int i = 200; i < (circ_pnt / 2) + 200; i++) {
 		ang = (2 * PI * i) / circ_pnt;
-		glVertex2d((cos(ang) * 20) -250, (sin(ang) * 25) -20);
+		glVertex2d((cos(ang) * 20) - 250, (sin(ang) * 25) - 20);
 	}
 	glEnd();
 	glBegin(GL_POLYGON);
@@ -102,7 +102,7 @@ void desenhar() {
 	glVertex2d(200, -20);
 	glEnd();
 	desenha_circulo(200, -20, 15, 15, circ_pnt);
-	
+
 	// Ladinhos
 	glBegin(GL_POLYGON);
 	for (int i = 200; i < (circ_pnt / 2) + 200; i++) {
@@ -116,7 +116,7 @@ void desenhar() {
 		glVertex2d((cos(ang) * 20) + 250, (sin(ang) * 25) - 20);
 	}
 	glEnd();
-	
+
 	// ========================
 	// Coelho
 	// ========================
@@ -315,8 +315,7 @@ void desenhar() {
 void display() {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glClearColor(0.25f, 1.0f, 0.66f, 1.0f);  // cor do fundo
-
+	glClearColor(0.31f, 0.7f, 1.0f, 0.0f);	// definir cor do fundo
 	glClear(GL_COLOR_BUFFER_BIT);  // limpa a tela com a cor do fundo
 
 								   // Especificar o local onde o desenho acontece: bem no centro da janela
