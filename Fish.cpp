@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
 	glutReshapeFunc(tela); // configura tela
 	glutDisplayFunc(display);
 	glutKeyboardFunc(&keyboard); // chama o teclado
-	glutTimerFunc(1500, anim, 1); // chama animacao
+	glutTimerFunc(100, anim, 1); // chama animacao
 	glutMainLoop(); // Redesenhar
 
 	return(0);
@@ -99,7 +99,7 @@ void anim(int value) {
 	ty += yStep;
 
 	glutPostRedisplay();
-	glutTimerFunc(150, anim, 1);
+	glutTimerFunc(100, anim, 1);
 }
 
 void desenhar() {
