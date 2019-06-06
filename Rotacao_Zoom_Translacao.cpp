@@ -42,7 +42,8 @@ void keyboard(unsigned char tecla, int x, int y) {
 	//retangulo
 	if (tecla == 'e') {
 		trans = trans + 0.5;
-	} else if (tecla == 'd') {
+	}
+	else if (tecla == 'd') {
 		trans = trans - 0.5;
 	}
 	// tiangulo
@@ -58,7 +59,7 @@ void keyboard(unsigned char tecla, int x, int y) {
 void desenhar() {
 	// QUADRADO
 	glPushMatrix(); // salva as transformações atuais na pilha
-	glRotated(rotacao, 0, 0, 1); // (ang, x, y, z)
+	glRotatef(rotacao, 0, 0, 1); // (ang, x, y, z)
 
 	glBegin(GL_QUADS);
 	glColor3f(1.0, 0.0, 0.0); // Cor
@@ -85,13 +86,16 @@ void desenhar() {
 	glPopMatrix(); // restaura as transformações anteriores
 	glPushMatrix(); // salva as transformações atuais na pilha
 	// TRIANGULO
+	// OBS: o jeito certo seria desenhar o objeto no 0,0 e transladar ele, 
+	// assim o zoom se matem no centro do objeto e nao ao centro da tela.
+	glTranslatef(-200, 0, 0);
 	glScalef(zoom, zoom, 0);
 
 	glBegin(GL_TRIANGLES);
 	glColor3f(0.0, 1.0, 0.0); // Cor
-	glVertex2f(-300, -100);
-	glVertex2f(-200, 0);
 	glVertex2f(-100, -100);
+	glVertex2f(0, 0);
+	glVertex2f(100, -100);
 	glEnd();
 
 	glPopMatrix(); // restaura as transformações anteriores
