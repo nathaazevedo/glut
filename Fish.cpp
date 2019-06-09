@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
 }
 
 void keyboard(unsigned char tecla, int x, int y) {
-	// quadrado
+	// color fish
 	if (tecla == '1') {
 		r = rand() % 255;
 		g = rand() % 255;
