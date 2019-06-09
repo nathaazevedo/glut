@@ -18,8 +18,10 @@ GLfloat janela_y = (janela_altura / 2) - 5;
 // velocidade do jogo
 int vel_game = 5;
 // Variaveis com relacao ao jogador
-int player1_posY = 0;
-int player2_posY = 0;
+GLfloat player1_posX = -janela_x + 20;
+GLfloat player1_posY = 0;
+GLfloat player2_posX = janela_x - 20;
+GLfloat player2_posY = 0;
 // Variaveis com relacao a bola
 float ball_x = 0;
 float ball_y = 0;
@@ -48,7 +50,7 @@ int main(int argc, char** argv) {
 	glutReshapeFunc(tela); // configura tela
 	glutDisplayFunc(display);
 	glutKeyboardFunc(&keyboard); // chama o teclado
-	glutTimerFunc(100, animar_bola, 1); // chama animacao
+	glutTimerFunc(2*vel_game, animar_bola, 1); // chama animacao
 	glutMainLoop(); // Redesenhar
 
 	return(0);
@@ -97,8 +99,8 @@ void desenhar() {
 	glVertex2f(0, -janela_y); // Segundo ponto
 	glEnd();
 	// Players
-	players((GLfloat) -janela_x + 20, (GLfloat) player1_posY);  // player 1 - w - s
-	players((GLfloat)  janela_x - 20, (GLfloat) player2_posY);  // player 2 - o - l
+	players(player1_posX, player1_posY);  // player 1 - w - s
+	players(player2_posX, player2_posY);  // player 2 - o - l
 	// Bola
 	bola(ball_x, ball_y);
 }
@@ -135,9 +137,9 @@ void animar_bola(int valor) {
 	if ((ball_x > janela_x) || (ball_x < -janela_x)) {
 		ball_x = 0;
 	}
-	// Caso bater na raquete, a bolinha volta
-	if ((ball_y < player1_posY + player_altura/2 && ball_y < player1_posY - player_altura / 2) ||
-		(ball_y < player2_posY + player_altura / 2 && ball_y < player2_posY - player_altura / 2)) {
+	// Se colidir com algum player, mudar a direcao da bol
+	if ((ball_y < player1_posY + player_altura/2 && ball_y > player1_posY - player_altura / 2 && ball_x == player1_posX + 10) ||
+		(ball_y < player2_posY + player_altura / 2 && ball_y > player2_posY - player_altura / 2 && ball_x == player2_posX - 10 )) {
 		xStep = -xStep;
 	}
 
@@ -145,7 +147,7 @@ void animar_bola(int valor) {
 	ball_y += yStep;
 
 	glutPostRedisplay();
-	glutTimerFunc(10, animar_bola, 1);
+	glutTimerFunc(2*vel_game, animar_bola, 1);
 }
 
 void display() {
