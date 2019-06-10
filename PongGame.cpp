@@ -3,6 +3,7 @@
 #include <GL/glut.h>
 #include <math.h>
 #include <time.h>
+#include <string.h>
 
 #define PI 3.1415926535898
 
@@ -21,8 +22,10 @@ int vel_game = 3;
 // Variaveis com relacao ao jogador
 GLfloat player1_posX = -janela_x + 20;
 GLfloat player1_posY = 0;
+int p1_score = 0;
 GLfloat player2_posX = janela_x - 20;
 GLfloat player2_posY = 0;
+int p2_score = 0;
 // Variaveis com relacao a bola
 float ball_x = 0;
 float ball_y = 0;
@@ -40,6 +43,7 @@ void keyOperations(void);
 void desenhar();
 void players(GLfloat pos_x, GLfloat pos_y);
 void bola(GLfloat pos_x, GLfloat  pos_y);
+void scores(char *string);
 void animar_bola(int valor);
 
 int main(int argc, char** argv) {
@@ -119,6 +123,10 @@ void desenhar() {
 		players(player2_posX, player2_posY);  // player 2 - o - l
 		// Bola
 		bola(ball_x, ball_y);
+		// Pontos
+		char pontos[100] = {0};
+		sprintf_s(pontos, "%d\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t%d", p1_score, p2_score);
+		scores(pontos);
 }
 
 void players(GLfloat pos_x, GLfloat  pos_y) {
@@ -151,8 +159,12 @@ void animar_bola(int valor) {
 			yStep = -yStep;
 		}
 		// Quando um player marcar gol, centralizar a bola
-		if ((ball_x > janela_x) || (ball_x < -janela_x)) {
+		if (ball_x > janela_x) {
 			ball_x = 0;
+			p1_score++;
+		} else if (ball_x < -janela_x) {
+			ball_x = 0;
+			p2_score++;
 		}
 		// Se colidir com algum player, mudar a direcao da bol
 		if ((ball_y < player1_posY + player_altura / 2 && ball_y > player1_posY - player_altura / 2 && ball_x == player1_posX + 10) ||
@@ -166,6 +178,14 @@ void animar_bola(int valor) {
 	}
 	glutPostRedisplay();
 	glutTimerFunc(2 * vel_game, animar_bola, 1);
+}
+
+void scores(char *string) {
+	glRasterPos2f(-58, janela_y - 50);
+
+	for (char* c = string; *c != '\0'; c++){
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c); // Updates the position
+	}
 }
 
 void display() {
