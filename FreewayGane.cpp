@@ -241,3 +241,7 @@ void tela(GLsizei w, GLsizei h) {
 
 	glMatrixMode(GL_MODELVIEW);
 }
+
+/*
+https://www.youtube.com/watch?v=FPXQT_WXvd8
+*/
