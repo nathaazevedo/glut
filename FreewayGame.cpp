@@ -10,33 +10,32 @@
 #define janela_largura 800
 #define janela_altura 600
 
-#define player_altura 15
-#define player_largura 15
+#define player_altura 12
+#define player_largura 12
 
 // Auxiliares para que o tamanho da tela possa ser modular
 GLfloat janela_x = (janela_largura / 2) - 5;
 GLfloat janela_y = (janela_altura / 2) - 5;
 
 // velocidade do jogo
-int vel_game = 2;
+int vel_game = 3;
 // Variaveis com relacao ao jogador
-GLfloat player1_posX = -janela_x/2;
-GLfloat player1_posY = -janela_y+20;
-int p1_score = 0;
-GLfloat player2_posX =  janela_x/2;
-GLfloat player2_posY = -janela_y+20;
-int p2_score = 0;
+typedef struct {
+	float posX;
+	float posY = -janela_y + 20;
+	int score = 0;
+} Jogador;
+
+Jogador player[2];
 // Variaveis com relacao a bola
-struct car{
+typedef struct{
 	float x;
 	float y;
-	int vel;
-	int cor[3];
-} typedef carro;
+	int vel = 1;
+	int cor[3] = {255,255,255};
+} Carro;
 
-float car_x[10];
-float car_y[10];
-int	car_vel[10] = {1,1,1,1,1,1,1,1,1,1};
+Carro car[10];
 // Numero de passos movidos por Loop da animacao
 float xStep = 1;
 float yStep = 1;
@@ -49,17 +48,22 @@ void keyPressed(unsigned char key, int x, int y);
 void keyUp(unsigned char key, int x, int y);
 void keyOperations(void);
 void desenhar();
-void linha(GLfloat pos_x, GLfloat  pos_y, bool dashed);
-void players(GLfloat pos_x, GLfloat pos_y);
-void carro(GLfloat pos_x, GLfloat  pos_y);
+void linha_asfalto(GLfloat pos_x, GLfloat  pos_y, bool dashed);
+void desenha_players(GLfloat pos_x, GLfloat pos_y);
+void desenha_carro(GLfloat pos_x, GLfloat pos_y);
 void scores(char *string);
 void animar_carros(int valor);
 
 int main(int argc, char** argv) {
 	glutInit(&argc, argv);  // controla se o sistema operacional tem suporte a janelas.
-	for (int i = 0; i < 256; i++) {
+
+	for (int i = 0; i < 256; i++) { // Zerar buffer de teclado 
 		keyStates[i] = false;
 	}
+	// Ajustas posicao inicial do jogador
+	player[0].posX = -janela_x / 2;
+	player[1].posX = janela_x / 2;
+
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);  // quantidade de buffer de cores e que o padrao de cores é RGB ou RGBA
 
 	glutInitWindowSize(janela_largura, janela_altura);  // tamanho da janela
@@ -89,25 +93,25 @@ void keyUp(unsigned char key, int x, int y) {
 }
 
 void keyOperations(void) {
-//	if (clock() > 3000) {
+	if (clock() > 4000) {
 		if (keyStates['w']) {
-			if (player1_posY < janela_y - player_altura / 2 - 70) {
-				player1_posY += vel_game;
+			if (player[0].posY < janela_y - player_altura / 2 - 70) {
+				player[0].posY += vel_game;
 			}
-			else if (player1_posY >= janela_y - player_altura / 2 - 70){  // Se atravessar a rua
-				player1_posY = -janela_y + 20;
-				p1_score++;
+			else if (player[0].posY >= janela_y - player_altura / 2 - 70){  // Se atravessar a rua
+				player[0].posY = -janela_y + 20;
+				player[0].score++;
 			}
 		}
 		if (keyStates['o']) {
-			if (player2_posY < janela_y - player_altura / 2 - 70) {
-				player2_posY += vel_game;
-			} else if (player2_posY >= janela_y - player_altura / 2 - 70) {  // Se atravessar a rua
-				player2_posY = -janela_y + 20;
-				p2_score++;
+			if (player[1].posY < janela_y - player_altura / 2 - 70) {
+				player[1].posY += vel_game;
+			} else if (player[1].posY >= janela_y - player_altura / 2 - 70) {  // Se atravessar a rua
+				player[1].posY = -janela_y + 20;
+				player[1].score++;;
 			}
 		}
-//	}
+	}
 }
 
 void desenhar() {
@@ -123,41 +127,44 @@ void desenhar() {
 		glEnd(); // Fim quadrado
 		// Linhas
 		glLineWidth(2);
-		linha(janela_x, -janela_y + 60, false);   // horizontal embaixo
-		linha(janela_x, janela_y - 110, false); // horizontal emcima
+		linha_asfalto(janela_x, -janela_y + 60, false);   // horizontal embaixo
+		linha_asfalto(janela_x, janela_y - 110, false); // horizontal emcima
 		glPushMatrix();
 		glTranslatef(0, janela_y - 110, 0); // ajustar topo da tela
 		for (int i = 0; i < 10; i++) {
 			glTranslatef(0, -42, 0); // posiciona objeto
 			if(i == 4){
-				glPushMatrix();
 				glColor3ub(255, 251, 68);  // item abaixo na cor amarela
-				linha(-janela_x, 0, true); // horizontal central
-				glPopMatrix();
 			} else {
 				glColor3ub(255, 255, 255); // itens abaixo na cor branca
-				linha(-janela_x, 0, true); // horizontal central
 			}
+			linha_asfalto(-janela_x, 0, true); // horizontal central
 		}
 		glPopMatrix();
 		// Carros
 		glPushMatrix();
 		glTranslatef(0, janela_y - 110, 0); // ajustar topo da tela
 		for (int i = 0; i < 10; i++) {
-			car_y[i] = -42 * (i + 1);
-			carro(car_x[i] , car_y[i] + 21);
+			car[i].y = (float) -42 * (i + 1);	// deslocar
+			if (i == 5) {				// girar desenho
+				glScalef(-1, 1, 1);	
+			}	
+			glColor3ub(car[i].cor[0], car[i].cor[1], car[i].cor[2]);
+			// pegar cor
+			desenha_carro(car[i].x , car[i].y + 21); // fazer desenho
 		}
 		glPopMatrix();
 		// Pontos
 		char pontos[100] = {0};
-		sprintf_s(pontos, "Score player1 = %d\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Score player2 = %d", p1_score, p2_score);
+		sprintf_s(pontos, "Score player1 = %d\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Score player2 = %d", player[0].score, player[1].score);
 		scores(pontos);
 		// Players
-		players(player1_posX, player1_posY);  // player 1 - w 
-		players(player2_posX, player2_posY);  // player 2 - o 
+		for (int i = 0; i < 2; i++) {
+			desenha_players(player[i].posX, player[i].posY);  // desenha galinhas
+		}
 }
 
-void linha(GLfloat pos_x, GLfloat  pos_y, bool dashed) {
+void linha_asfalto(GLfloat pos_x, GLfloat  pos_y, bool dashed) {
 	if (dashed == true) {
 		glPushMatrix();
 		glTranslatef(-janela_x, 0, 0);
@@ -177,77 +184,130 @@ void linha(GLfloat pos_x, GLfloat  pos_y, bool dashed) {
 	}
 }
 
-void players(GLfloat pos_x, GLfloat  pos_y) {
+void desenha_players(GLfloat pos_x, GLfloat  pos_y) {
 	glPushMatrix();
 	glColor3ub(244, 229, 66);
-	glTranslatef(pos_x, pos_y-10, 0); // posiciona objeto
-
+	glTranslatef(pos_x, pos_y, 0); // posiciona objeto
+	// Corpo
 	glBegin(GL_QUADS);
 	glVertex2f(-player_largura/2, player_altura/2);
 	glVertex2f(player_largura/2, player_altura/2);
 	glVertex2f(player_largura/2, -player_altura/2);
 	glVertex2f(-player_largura/2, -player_altura/2);
 	glEnd(); // Fim quadrado
-
-	glBegin(GL_QUADS);
-	glVertex2f(5, 15);
-	glVertex2f(15, 15);
-	glVertex2f(15, 5);
-	glVertex2f(5, 5);
-	glEnd(); // Fim quadrado
-	
-	glBegin(GL_LINES);
-	glVertex2f(-3, -5); // Primeiro ponto
-	glVertex2f(-3, -15); // Segundo ponto
+	// Cabeca
+	glPushMatrix();
+	glPointSize(12);
+	glEnable(GL_POINT_SMOOTH);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	// Desenhar Cabeca
+	glBegin(GL_POINTS);
+	glVertex2f(5, 10);
 	glEnd();
-	
+	glPopMatrix();
+	// Perna esq
 	glBegin(GL_LINES);
-	glVertex2f(3, -5); // Primeiro ponto
-	glVertex2f(3, -15); // Segundo ponto
+	glVertex2f(-3, -8); // Primeiro ponto
+	glVertex2f(-3, -13); // Segundo ponto
 	glEnd();
-
-
+	// Perna dir
+	glBegin(GL_LINES);
+	glVertex2f(3, -8); // Primeiro ponto
+	glVertex2f(3, -13); // Segundo ponto
+	glEnd();
+	// Rabo
+	glBegin(GL_LINE_LOOP);
+	glVertex2f(-5, 5);
+	glVertex2f(-15, 8);
+	glVertex2f(-5, 3);
+	glEnd();
+	// Bico
+	glBegin(GL_LINE_LOOP);
+	glVertex2f(10, 8);
+	glVertex2f(13, 7);
+	glVertex2f(10, 5);
+	glEnd();
 	glPopMatrix();
 }
 
-void carro(GLfloat pos_x, GLfloat  pos_y) {
+void desenha_carro(GLfloat pos_x, GLfloat  pos_y) {
 	glPushMatrix();
 	glTranslatef(pos_x, pos_y, 0); // posiciona objeto
+	// chassi
 	glBegin(GL_QUADS);
 	glVertex2f(-20, 10);
 	glVertex2f(20, 10);
 	glVertex2f(20, -10);
 	glVertex2f(-20, -10);
 	glEnd(); // Fim quadrado
+	// objetos na cor preta
+	glColor3ub(114, 117, 117);
+	// vidros
+	glBegin(GL_QUADS);
+	glVertex2f( 5, 8);
+	glVertex2f(15, 8);
+	glVertex2f(15, -8);
+	glVertex2f( 5, -8);
+	glEnd(); // Fim quadrado
+	// Pneu 1
+	glBegin(GL_QUADS);
+	glVertex2f(17, 15);
+	glVertex2f(7, 15);
+	glVertex2f(7, 10);
+	glVertex2f(17, 10);
+	glEnd(); // Fim quadrado
+	// Pneu 2
+	glBegin(GL_QUADS);
+	glVertex2f(-17, 15);
+	glVertex2f(-7, 15);
+	glVertex2f(-7, 10);
+	glVertex2f(-17, 10);
+	glEnd(); // Fim quadrado
+	// Pneu 3
+	glBegin(GL_QUADS);
+	glVertex2f(17, -15);
+	glVertex2f(7, -15);
+	glVertex2f(7, -10);
+	glVertex2f(17, -10);
+	glEnd(); // Fim quadrado
+	// Pneu 4
+	glBegin(GL_QUADS);
+	glVertex2f(-17, -15);
+	glVertex2f(-7, -15);
+	glVertex2f(-7, -10);
+	glVertex2f(-17, -10);
+	glEnd(); // Fim quadrado
+	// resetar cor
+	glColor3ub(255, 255, 255);
 	glPopMatrix();
 }
 
 void animar_carros(int valor) {
 	int random[10];
-	if(clock() > 3000){
-		srand(time(NULL));
-		for (int i = 0; i < 10; i++) {
-			random[i] = rand() % 500;
-			if (i < 5) {	// carros das pistas de cima
-				if (car_x[i] > janela_x - 20) { // Sair a pista pela direita
-					car_x[i] = -janela_x - random[i];
-					car_vel[i] = 1 + rand() % 3;
-				}
-				car_x[i] += xStep * car_vel[i];
-			} else {		// carros das pistas de baixo
-				if (car_x[i] < -janela_x + 20) { // Sair da pista pela esquerda
-					car_x[i] = +janela_x + random[i];
-					car_vel[i] = 1 + rand() % 3;
-				}
-				car_x[i] -= xStep * car_vel[i];
+	srand(time(NULL));
+	for (int i = 0; i < 10; i++) {		// São 10 carros, então
+		random[i] = rand() % 500;		// Sotear uma posicao aleatoria
+		if (car[i].x > janela_x - 20) {		// Se sair a pista
+			for (int j = 0; j < 3; j++) {	// sortear nova cor
+				car[i].cor[j] = rand() % 255; // sortear r,g,b
 			}
-			// Se colidir com algum player, mudar a direcao da bol
-			printf("carPos: %f - %f \n playerPos: %f - %f \n", car_x[i], car_y[i]+200, player1_posX, player1_posY);
-			if (car_y[i]+200 < player1_posY + player_altura && car_y[i]+200 > player1_posY - player_altura && car_x[i] > player1_posX - player_largura && car_x[i] < player1_posX + player_largura) {
-				player1_posY = -janela_y + 20;
+			car[i].x = -janela_x - random[i];
+			car[i].vel = 1 + rand() % 3;
+		}
+		car[i].x += xStep * car[i].vel; // Mover carro
+		for (int j = 0; j < 2; j++) {	// Percorre os dois jogadores
+			float colY = car[i].y + 200 < player[j].posY + 20 && car[i].y + 200 > player[j].posY - 20;
+			float colX = car[i].x > player[j].posX - 20 && car[i].x < player[j].posX + 20;
+			if (i > 4) {
+				colX = -car[i].x > player[j].posX - 20 && -car[i].x < player[j].posX + 20;
 			}
-			else if (car_y[i] + 200 < player2_posY + player_altura && car_y[i] + 200 > player2_posY - player_altura && car_x[i] > player2_posX - player_largura && car_x[i] < player2_posX + player_largura) {
-				player2_posY = -janela_y + 20;
+			// Se acontecer colisao com jogador
+			if (colY && colX) {
+					printf("%f %f %i\n", car[i].x, car[i].y + 200, i);
+					printf("%f %f \n\n\n", player[0].posX, player[0].posY);
+				//	system("pause");
+					player[0].posY = -janela_y + 20;
 			}
 		}
 	}
