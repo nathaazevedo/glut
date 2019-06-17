@@ -157,7 +157,7 @@ void desenha_peixe() {
 	}
 	else if (xStep < 0) {
 		//glRotatef(180, 0, 0, 1); // (ang, x, y, z)
-		glScalef(-(1), 1, 1);
+		glScalef(-1, 1, 1);
 	}
 
 	glColor3ub(r, g, b); // cor do peixe
