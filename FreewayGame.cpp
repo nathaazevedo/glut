@@ -28,11 +28,11 @@ typedef struct {
 
 Jogador player[2];
 // Variaveis com relacao a bola
-typedef struct{
+typedef struct {
 	float x;
 	float y;
 	int vel = 1;
-	int cor[3] = {255,255,255};
+	int cor[3] = { 255,255,255 };
 } Carro;
 
 Carro car[10];
@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);  // quantidade de buffer de cores e que o padrao de cores é RGB ou RGBA
 
 	glutInitWindowSize(janela_largura, janela_altura);  // tamanho da janela
-	glutInitWindowPosition(300, 300); // posicao inicial da janela
+	glutInitWindowPosition(300, 150); // posicao inicial da janela
 
 	glutCreateWindow("GLUT Natao ---- Freeway");   /// cria a janela
 
@@ -77,10 +77,10 @@ int main(int argc, char** argv) {
 	glutKeyboardFunc(keyPressed); // chama o "keyPressed" quando uma tecla for pressionada 
 	glutKeyboardUpFunc(keyUp); // chama o "keyUp" quando uma tecla for solta
 
-	glutTimerFunc(4*vel_game, animar_carros, 1); // chama animacao
+	glutTimerFunc(4 * vel_game, animar_carros, 1); // chama animacao
 
 	glutMainLoop(); // Redesenhar
-	 
+
 	return(0);
 }
 
@@ -98,7 +98,7 @@ void keyOperations(void) {
 			if (player[0].posY < janela_y - player_altura / 2 - 70) {
 				player[0].posY += vel_game;
 			}
-			else if (player[0].posY >= janela_y - player_altura / 2 - 70){  // Se atravessar a rua
+			else if (player[0].posY >= janela_y - player_altura / 2 - 70) {  // Se atravessar a rua
 				player[0].posY = -janela_y + 20;
 				player[0].score++;
 			}
@@ -106,7 +106,8 @@ void keyOperations(void) {
 		if (keyStates['o']) {
 			if (player[1].posY < janela_y - player_altura / 2 - 70) {
 				player[1].posY += vel_game;
-			} else if (player[1].posY >= janela_y - player_altura / 2 - 70) {  // Se atravessar a rua
+			}
+			else if (player[1].posY >= janela_y - player_altura / 2 - 70) {  // Se atravessar a rua
 				player[1].posY = -janela_y + 20;
 				player[1].score++;;
 			}
@@ -115,53 +116,54 @@ void keyOperations(void) {
 }
 
 void desenhar() {
-		// Grossura das linhas
-		glLineWidth(7);
-		glColor3ub(255, 255, 255); // itens abaixo na cor branca
-		// Limites da tela
-		glBegin(GL_LINE_LOOP);
-		glVertex2f(-janela_x, janela_y-50);
-		glVertex2f(janela_x, janela_y-50);
-		glVertex2f(janela_x, -janela_y);
-		glVertex2f(-janela_x, -janela_y);
-		glEnd(); // Fim quadrado
-		// Linhas
-		glLineWidth(2);
-		linha_asfalto(janela_x, -janela_y + 60, false);   // horizontal embaixo
-		linha_asfalto(janela_x, janela_y - 110, false); // horizontal emcima
-		glPushMatrix();
-		glTranslatef(0, janela_y - 110, 0); // ajustar topo da tela
-		for (int i = 0; i < 10; i++) {
-			glTranslatef(0, -42, 0); // posiciona objeto
-			if(i == 4){
-				glColor3ub(255, 251, 68);  // item abaixo na cor amarela
-			} else {
-				glColor3ub(255, 255, 255); // itens abaixo na cor branca
-			}
-			linha_asfalto(-janela_x, 0, true); // horizontal central
+	// Grossura das linhas
+	glLineWidth(7);
+	glColor3ub(255, 255, 255); // itens abaixo na cor branca
+							   // Limites da tela
+	glBegin(GL_LINE_LOOP);
+	glVertex2f(-janela_x, janela_y - 50);
+	glVertex2f(janela_x, janela_y - 50);
+	glVertex2f(janela_x, -janela_y);
+	glVertex2f(-janela_x, -janela_y);
+	glEnd(); // Fim quadrado
+			 // Linhas
+	glLineWidth(2);
+	linha_asfalto(janela_x, -janela_y + 60, false);   // horizontal embaixo
+	linha_asfalto(janela_x, janela_y - 110, false); // horizontal emcima
+	glPushMatrix();
+	glTranslatef(0, janela_y - 110, 0); // ajustar topo da tela
+	for (int i = 0; i < 10; i++) {
+		glTranslatef(0, -42, 0); // posiciona objeto
+		if (i == 4) {
+			glColor3ub(255, 251, 68);  // item abaixo na cor amarela
 		}
-		glPopMatrix();
-		// Carros
-		glPushMatrix();
-		glTranslatef(0, janela_y - 110, 0); // ajustar topo da tela
-		for (int i = 0; i < 10; i++) {
-			car[i].y = (float) -42 * (i + 1);	// deslocar
-			if (i == 5) {				// girar desenho
-				glScalef(-1, 1, 1);	
-			}	
-			glColor3ub(car[i].cor[0], car[i].cor[1], car[i].cor[2]);
-			// pegar cor
-			desenha_carro(car[i].x , car[i].y + 21); // fazer desenho
+		else {
+			glColor3ub(255, 255, 255); // itens abaixo na cor branca
 		}
-		glPopMatrix();
-		// Pontos
-		char pontos[100] = {0};
-		sprintf_s(pontos, "Score player1 = %d\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Score player2 = %d", player[0].score, player[1].score);
-		scores(pontos);
-		// Players
-		for (int i = 0; i < 2; i++) {
-			desenha_players(player[i].posX, player[i].posY);  // desenha galinhas
+		linha_asfalto(-janela_x, 0, true); // horizontal central
+	}
+	glPopMatrix();
+	// Carros
+	glPushMatrix();
+	glTranslatef(0, janela_y - 110, 0); // ajustar topo da tela
+	for (int i = 0; i < 10; i++) {
+		car[i].y = (float)-42 * (i + 1);	// deslocar
+		if (i == 5) {				// girar desenho
+			glScalef(-1, 1, 1);
 		}
+		glColor3ub(car[i].cor[0], car[i].cor[1], car[i].cor[2]);
+		// pegar cor
+		desenha_carro(car[i].x, car[i].y + 21); // fazer desenho
+	}
+	glPopMatrix();
+	// Pontos
+	char pontos[100] = { 0 };
+	sprintf_s(pontos, "Score player1 = %d\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Score player2 = %d", player[0].score, player[1].score);
+	scores(pontos);
+	// Players
+	for (int i = 0; i < 2; i++) {
+		desenha_players(player[i].posX, player[i].posY);  // desenha galinhas
+	}
 }
 
 void linha_asfalto(GLfloat pos_x, GLfloat  pos_y, bool dashed) {
@@ -176,7 +178,8 @@ void linha_asfalto(GLfloat pos_x, GLfloat  pos_y, bool dashed) {
 			glTranslatef(60, 0, 0);
 		}
 		glPopMatrix();
-	}else {
+	}
+	else {
 		glBegin(GL_LINES);
 		glVertex2f(-pos_x, pos_y); // Primeiro ponto
 		glVertex2f(pos_x, pos_y); // Segundo ponto
@@ -188,14 +191,14 @@ void desenha_players(GLfloat pos_x, GLfloat  pos_y) {
 	glPushMatrix();
 	glColor3ub(244, 229, 66);
 	glTranslatef(pos_x, pos_y, 0); // posiciona objeto
-	// Corpo
+								   // Corpo
 	glBegin(GL_QUADS);
-	glVertex2f(-player_largura/2, player_altura/2);
-	glVertex2f(player_largura/2, player_altura/2);
-	glVertex2f(player_largura/2, -player_altura/2);
-	glVertex2f(-player_largura/2, -player_altura/2);
+	glVertex2f(-player_largura / 2, player_altura / 2);
+	glVertex2f(player_largura / 2, player_altura / 2);
+	glVertex2f(player_largura / 2, -player_altura / 2);
+	glVertex2f(-player_largura / 2, -player_altura / 2);
 	glEnd(); // Fim quadrado
-	// Cabeca
+			 // Cabeca
 	glPushMatrix();
 	glPointSize(12);
 	glEnable(GL_POINT_SMOOTH);
@@ -234,51 +237,51 @@ void desenha_players(GLfloat pos_x, GLfloat  pos_y) {
 void desenha_carro(GLfloat pos_x, GLfloat  pos_y) {
 	glPushMatrix();
 	glTranslatef(pos_x, pos_y, 0); // posiciona objeto
-	// chassi
+								   // chassi
 	glBegin(GL_QUADS);
 	glVertex2f(-20, 10);
 	glVertex2f(20, 10);
 	glVertex2f(20, -10);
 	glVertex2f(-20, -10);
 	glEnd(); // Fim quadrado
-	// objetos na cor preta
+			 // objetos na cor preta
 	glColor3ub(114, 117, 117);
 	// vidros
 	glBegin(GL_QUADS);
-	glVertex2f( 5, 8);
+	glVertex2f(5, 8);
 	glVertex2f(15, 8);
 	glVertex2f(15, -8);
-	glVertex2f( 5, -8);
+	glVertex2f(5, -8);
 	glEnd(); // Fim quadrado
-	// Pneu 1
+			 // Pneu 1
 	glBegin(GL_QUADS);
 	glVertex2f(17, 15);
 	glVertex2f(7, 15);
 	glVertex2f(7, 10);
 	glVertex2f(17, 10);
 	glEnd(); // Fim quadrado
-	// Pneu 2
+			 // Pneu 2
 	glBegin(GL_QUADS);
 	glVertex2f(-17, 15);
 	glVertex2f(-7, 15);
 	glVertex2f(-7, 10);
 	glVertex2f(-17, 10);
 	glEnd(); // Fim quadrado
-	// Pneu 3
+			 // Pneu 3
 	glBegin(GL_QUADS);
 	glVertex2f(17, -15);
 	glVertex2f(7, -15);
 	glVertex2f(7, -10);
 	glVertex2f(17, -10);
 	glEnd(); // Fim quadrado
-	// Pneu 4
+			 // Pneu 4
 	glBegin(GL_QUADS);
 	glVertex2f(-17, -15);
 	glVertex2f(-7, -15);
 	glVertex2f(-7, -10);
 	glVertex2f(-17, -10);
 	glEnd(); // Fim quadrado
-	// resetar cor
+			 // resetar cor
 	glColor3ub(255, 255, 255);
 	glPopMatrix();
 }
@@ -304,10 +307,10 @@ void animar_carros(int valor) {
 			}
 			// Se acontecer colisao com jogador
 			if (colY && colX) {
-					printf("%f %f %i\n", car[i].x, car[i].y + 200, i);
-					printf("%f %f \n\n\n", player[0].posX, player[0].posY);
+				printf("%f %f %i\n", car[i].x, car[i].y + 200, i);
+				printf("%f %f \n\n\n", player[0].posX, player[0].posY);
 				//	system("pause");
-					player[0].posY = -janela_y + 20;
+				player[0].posY = -janela_y + 20;
 			}
 		}
 	}
@@ -318,7 +321,7 @@ void animar_carros(int valor) {
 void scores(char *string) {
 	glRasterPos2f(-210, janela_y - 30);
 
-	for (char* c = string; *c != '\0'; c++){
+	for (char* c = string; *c != '\0'; c++) {
 		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c); // Updates the position
 	}
 }
@@ -329,7 +332,7 @@ void display() {
 	glClearColor(0.0f, 0.0f, 0.0, 0.0f); // cor de fundo
 	glClear(GL_COLOR_BUFFER_BIT);  // limpa a tela com a cor do fundo
 
-	// Especificar o local onde o desenho acontece: bem no centro da janela
+								   // Especificar o local onde o desenho acontece: bem no centro da janela
 	glTranslatef(janela_largura / 2, janela_altura / 2, 0.0f);
 
 	glViewport(0, 0, janela_largura, janela_altura);
